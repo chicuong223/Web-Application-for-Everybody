@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <title>Fibonacci</title>
-</head>
-
-<body>
-    <h1>Webpage to generate a Fibonacci sequence</h1>
-    <form method="POST" action="fibonacci.php">
-        Number of elements: <input type="number" name="x" min="0" max="69" value="<?= htmlentities(isset($_POST["x"]) ? $_POST["x"] : '')?>"/>
-        <input type="submit" value="Submit" />
-    </form>
-    <?php
+<?php
     function Fibo($n)
     {
         $memo = array();
-        if($n <= 1){
+        if ($n <= 1) {
             $memo[] = 0;
             return $memo;
         }
@@ -28,21 +14,41 @@
         return $memo;
     }
 
-    if ($_POST == null || strlen($_POST["x"]) < 1 || !is_numeric($_POST["x"])) {
-        echo 'Nothing was inputted </br>';
+    $msg = "";
+
+    if ($_POST == null || strlen($_POST["x"]) < 1) {
+        $msg = "Nothing was inputted";
+    }
+    else if(!is_numeric($_POST["x"])){
+        $msg = "Was not a number";
     } else {
         $x = $_POST["x"];
         if ($x > 69) {
-            echo 'OUT OF MEMORY RANGE <br>';
+            $msg = 'OUT OF MEMORY RANGE';
         } else {
-            $fibo = Fibo($x);
-            echo '<pre>';
-            print_r($fibo);
-            echo '</pre>';
+            foreach(Fibo($x) as $k => $v){
+                $msg = $msg . "[" . $k . "]" . " => " . $v . "<br>";
+            }
         }
     }
-    ?>
-    <a href="fibonacci.php">Reset</a>
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Fibonacci</title>
+</head>
+
+<body>
+    <h1>Webpage to generate a Fibonacci sequence</h1>
+    <form method="POST" action="fibonacci.php">
+        Number of elements: <input type="number" name="x" min="0" max="69" value="<?= htmlentities(isset($_POST["x"]) ? $_POST["x"] : '') ?>" />
+        <input type="submit" value="Submit" />
+    </form>
+    <p style="word-wrap: break-word;"><?= $msg ?></p>
+    <a href="fibonacci.php">Reset</a> <br>
 </body>
 
 </html>
