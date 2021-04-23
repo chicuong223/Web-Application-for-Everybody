@@ -16,7 +16,7 @@
 
     $msg = "";
 
-    if ($_POST == null || strlen($_POST["x"]) < 1) {
+    if ($_POST == null || strlen($_POST["x"]) < 1 || $_POST["x"] < 1) {
         $msg = "Nothing was inputted";
     }
     else if(!is_numeric($_POST["x"])){
