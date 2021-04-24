@@ -26,9 +26,7 @@
         if ($x > 69) {
             $msg = 'OUT OF MEMORY RANGE';
         } else {
-            foreach(Fibo($x) as $k => $v){
-                $msg = $msg . "[" . $k . "]" . " => " . $v . "<br>";
-            }
+            $msg = Fibo($x);
         }
     }
 ?>
@@ -47,7 +45,9 @@
         Number of elements: <input type="number" name="x" min="0" max="69" value="<?= htmlentities(isset($_POST["x"]) ? $_POST["x"] : '') ?>" />
         <input type="submit" value="Submit" />
     </form>
-    <p style="word-wrap: break-word;"><?= $msg ?></p>
+    <pre>
+        <?= print_r($msg, true) ?>
+    </pre>
     <a href="fibonacci.php">Reset</a> <br>
 </body>
 
