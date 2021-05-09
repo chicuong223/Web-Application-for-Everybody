@@ -15,25 +15,22 @@ $failure = false;  // If we have no POST data
 // Check to see if we have some POST data, if we do process it
 if (isset($_POST['email']) && isset($_POST['pass'])) {
     if (strlen($_POST['email']) < 1 || strlen($_POST['pass']) < 1) {
-        $failure = "Email and password are required";
+        $failure = "User name and password are required";
     } else {
         $email = htmlentities($_POST['email']);
         $password = htmlentities($_POST['pass']);
-        if (strpos($email, '@') === false) {
-            $failure = 'Email must have an at-sign (@)';
+
+        $check = hash('md5', $salt . $password);
+        if ($check !== $stored_hash) {
+            error_log("Login fail " . $_POST['email'] . " $check");
+            $failure = 'Incorrect Password';
         } else {
-            $check = hash('md5', $salt . $password);
-            if ($check !== $stored_hash) {
-                error_log("Login fail " . $_POST['email'] . " $check");
-                $failure = 'Incorrect Password';
-            } else {
-                error_log("Login success " . $_POST['email']);
-                $_SESSION['name'] = $email;
-                header("Location: view.php");
-            }
+            error_log("Login success " . $_POST['email']);
+            $_SESSION['name'] = $email;
+            header("Location: view.php");
         }
     }
-    if($failure !== false){
+    if ($failure !== false) {
         $_SESSION['failure'] = $failure;
         header("Location: login.php");
         return;
@@ -46,7 +43,6 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
 <html>
 
 <head>
-    <?php require_once "bootstrap.php"; ?>
     <title>CuongTCSE150676's Login Page</title>
 </head>
 
@@ -63,7 +59,7 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
         }
         ?>
         <form method="POST" action="login.php">
-            <label for="nam">Email</label>
+            <label for="nam">User name</label>
             <input type="text" name="email" id="nam"><br />
             <label for="id_1723">Password</label>
             <input type="text" name="pass" id="id_1723"><br />
