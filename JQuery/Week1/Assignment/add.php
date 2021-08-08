@@ -31,7 +31,7 @@ if (isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['e
 
 }
 else{
-    $_SESSION['fail']="All values are required";
+    $_SESSION['error']="All values are required";
 }?>
 <!DOCTYPE html>
 <html>
@@ -43,9 +43,9 @@ else{
 <div class="container">
     <h1>Adding Profile for UMSI</h1>
     <?php
-    if (isset($_SESSION['fail'])) {
-        echo('<p style="color: red;">' . htmlentities($_SESSION['fail']) . "</p>\n");
-        unset($_SESSION['fail']);
+    if (isset($_SESSION['error'])) {
+        echo('<p style="color: red;">' . htmlentities($_SESSION['error']) . "</p>\n");
+        unset($_SESSION['error']);
     }
     ?>
     <form method="post">
